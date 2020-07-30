@@ -1,4 +1,6 @@
 ﻿using DevIO.Business.Interfaces;
+using DevIO.Business.Notifications;
+using DevIO.Business.Services;
 using DevIO.Data.Contexts;
 using DevIO.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,12 @@ namespace DevIO.Api.Configurations
 		{
 			services.AddScoped<MeuDbContext>();
 			services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+			services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+			services.AddScoped<IProdutoRepository, ProdutoRepository>();
+
+			services.AddScoped<INotificador, Notificador>();
+			services.AddScoped<IFornecedorService, FornecedorService>();
+			services.AddScoped<IProdutoService, ProdutoService>();
 
 			return services;
 		}
