@@ -1,13 +1,11 @@
-﻿using DevIO.Business.Interfaces;
+﻿using DevIO.Api.Extensions;
+using DevIO.Business.Interfaces;
 using DevIO.Business.Notifications;
 using DevIO.Business.Services;
 using DevIO.Data.Contexts;
 using DevIO.Data.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevIO.Api.Configurations
 {
@@ -23,6 +21,9 @@ namespace DevIO.Api.Configurations
 			services.AddScoped<INotificador, Notificador>();
 			services.AddScoped<IFornecedorService, FornecedorService>();
 			services.AddScoped<IProdutoService, ProdutoService>();
+
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddScoped<IUser, AspNetUser>();
 
 			return services;
 		}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DevIO.Api.ViewModels;
@@ -21,7 +20,8 @@ namespace DevIO.Api.Controllers
 		public ProdutosController(INotificador notificador,
 			IProdutoRepository produtoRepository,
 			IProdutoService produtoService,
-			IMapper mapper) : base(notificador)
+			IMapper mapper,
+			IUser user) : base(notificador, user)
 		{
 			_mapper = mapper;
 			_produtoRepository = produtoRepository;

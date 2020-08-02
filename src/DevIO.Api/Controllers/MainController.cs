@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using DevIO.Business.Interfaces;
 using DevIO.Business.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Logging;
 
 namespace DevIO.Api.Controllers
 {
@@ -14,10 +11,22 @@ namespace DevIO.Api.Controllers
 	public class MainController : ControllerBase
 	{
 		private readonly INotificador _notificador;
+		private readonly IUser _appUser;
 
-		public MainController(INotificador notificador)
+		public Guid UsuarioId { get; }
+		public bool UsuarioAutenticado { get; }
+
+		public MainController(INotificador notificador,
+			IUser appUser)
 		{
 			_notificador = notificador;
+			_appUser = appUser;
+
+			if (appUser.IsAuthenticated())
+			{
+				UsuarioId = appUser.GetUserId();
+				UsuarioAutenticado = true;
+			}
 		}
 
 		protected bool OperacaoValida()
