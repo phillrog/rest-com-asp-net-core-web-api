@@ -7,9 +7,9 @@ using Microsoft.Extensions.Hosting;
 namespace DevIO.Api.Configuration
 {
 	public static class ApiConfig
-    {
-        public static IServiceCollection AddApiConfig(this IServiceCollection services)
-        {
+	{
+		public static IServiceCollection AddApiConfig(this IServiceCollection services)
+		{
 			services.AddControllers();
 
 			services.Configure<ApiBehaviorOptions>(options =>
@@ -23,13 +23,17 @@ namespace DevIO.Api.Configuration
 			});
 
 			return services;
-        }
+		}
 
-        public static IApplicationBuilder UseApiConfig(this IApplicationBuilder app, IWebHostEnvironment env)
-        {
+		public static IApplicationBuilder UseApiConfig(this IApplicationBuilder app, IWebHostEnvironment env)
+		{
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+			}
+			else
+			{
+				app.UseHsts();
 			}
 
 			app.UseHttpsRedirection();
@@ -44,6 +48,6 @@ namespace DevIO.Api.Configuration
 			});
 
 			return app;
-        }
-    }
+		}
+	}
 }
