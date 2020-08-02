@@ -2,6 +2,7 @@
 using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -33,7 +34,8 @@ namespace DevIO.Api.V1.Controllers
 			_userManager = userManager;
 			_appSettings = appSettings.Value;
 		}
-
+		
+		//[EnableCors("Development")]
 		[HttpPost("nova-conta")]
 		public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
 		{

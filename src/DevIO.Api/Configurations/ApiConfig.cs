@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace DevIO.Api.Configuration
 {
@@ -19,7 +20,22 @@ namespace DevIO.Api.Configuration
 
 			services.AddCors(options =>
 			{
-				options.AddPolicy("Development", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+				options.AddPolicy("Development", 
+					builder => 
+						builder
+							.AllowAnyOrigin()
+							.AllowAnyMethod()
+							.AllowAnyHeader()
+							.AllowCredentials());
+
+				options.AddPolicy("Production",
+					builder =>
+						builder
+							.WithMethods("GET")
+							.WithOrigins("http://desenvolvedor.io")
+							.SetIsOriginAllowedToAllowWildcardSubdomains()
+							//.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+							.AllowAnyHeader());
 			});
 
 			return services;
@@ -29,10 +45,12 @@ namespace DevIO.Api.Configuration
 		{
 			if (env.IsDevelopment())
 			{
+				app.UseCors("Development");
 				app.UseDeveloperExceptionPage();
 			}
 			else
 			{
+				app.UseCors("Production");
 				app.UseHsts();
 			}
 
