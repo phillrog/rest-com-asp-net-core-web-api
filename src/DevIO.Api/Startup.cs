@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using DevIO.Api.Extensions;
 
 namespace DevIO.Api
 {
@@ -38,8 +36,9 @@ namespace DevIO.Api
 
 			services.AddSwaggerConfig();
 
-			services.ResolveDepencies();
+			services.AddLoggingConfig(Configuration);
 
+			services.ResolveDepencies();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +48,11 @@ namespace DevIO.Api
 
 			app.UseAuthentication();
 
+			app.UseMiddleware<ExceptionMiddleware>();
+
 			app.UseSwaggerConfig(provider);
+
+			app.UseLoggingConfiguration();			
 		}
 	}
 }
